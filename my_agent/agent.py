@@ -3,6 +3,9 @@ from typing import TypedDict, Literal
 from langgraph.graph import StateGraph, END
 from my_agent.utils.nodes import call_model, should_continue, tool_node
 from my_agent.utils.state import AgentState
+from langgraph.checkpoint.memory import MemorySaver
+
+memory = MemorySaver()
 
 
 # Define the config
@@ -49,4 +52,4 @@ workflow.add_edge("action", "agent")
 # Finally, we compile it!
 # This compiles it into a LangChain Runnable,
 # meaning you can use it as you would any other runnable
-graph = workflow.compile()
+graph = workflow.compile(checkpointer=memory)
